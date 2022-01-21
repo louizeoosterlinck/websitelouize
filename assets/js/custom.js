@@ -29,24 +29,21 @@
 	/*  0. CUSTOM GALLERY
 	/* ----------------------------------------------------------- */
 
-	var galleryFolder = $(".gallery").attr("src");
+	var baseImage = $(".gallery").attr("src");
+	var count = $(".gallery").attr("count");
 
-	$.ajax({
-		url : galleryFolder,
-		success: function (data) {
-			$(data).find("a").attr("href", function (i, val) {
-				if( val.match(/\.(jpe?g|png|gif)$/i) ) { 
-					var thumbnailPath = val.substring(0, val.lastIndexOf('/')) + "/thumbnails" + val.substring(val.lastIndexOf('/'));
-					$(".gallery").append("<div class='col-xs-6 col-md-3'>"
-					+ "<a class='lightbox-img' href='" + val + "' title=''>"
-					+	"<img class='img-responsive thumbnail gallery-img center-block' src='" + thumbnailPath + "' alt='image'>"
-					+ "</a>"
-					+ "</div>");
-				} 
-			});
-			addLightbox();
-		}
-	});
+	for (let index = 1; index <= count; index++) {
+		var image = baseImage.substring(0, baseImage.lastIndexOf('.')) + index + baseImage.substring(baseImage.lastIndexOf('.'));
+		var thumbnailPath = image.substring(0, image.lastIndexOf('/')) + "/thumbnails" + image.substring(image.lastIndexOf('/'));
+
+		$(".gallery").append("<div class='col-xs-6 col-md-3'>"
+		+ "<a class='lightbox-img' href='" + image + "' title=''>"
+		+	"<img class='img-responsive thumbnail gallery-img center-block' src='" + thumbnailPath + "' alt='image'>"
+		+ "</a>"
+		+ "</div>");
+		
+	}
+	addLightbox();
 
 	/* ----------------------------------------------------------- */
 	/*  1. FIXED MENU
