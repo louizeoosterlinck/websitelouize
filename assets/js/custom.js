@@ -7,12 +7,13 @@
 
 	Custom JS
 
+	0. CUSTOM GALLERY
 	1. FIXED MENU
 	2. FEATURED SLIDE ( TYPED SLIDER )
 	3. SKILL PROGRESS BAR
 	4. MENU SMOOTH SCROLLING
 	5. MOBILE MENU CLOSE
-	6. PORTFOLIO GALLERY
+	6. PORTFOLIO FILTER
 	7. PORTFOLIO POPUP VIEW ( IMAGE LIGHTBOX )
 	8. CLIENT TESTIMONIALS ( SLICK SLIDER )
 	9. BUTTON SMOOTH SCROLL ( VIEW MY WORK )
@@ -25,7 +26,30 @@
 
 
 	/* ----------------------------------------------------------- */
-	/*  2. FIXED MENU
+	/*  0. CUSTOM GALLERY
+	/* ----------------------------------------------------------- */
+
+	var galleryFolder = $(".gallery").attr("src");
+
+	$.ajax({
+		url : galleryFolder,
+		success: function (data) {
+			$(data).find("a").attr("href", function (i, val) {
+				if( val.match(/\.(jpe?g|png|gif)$/i) ) { 
+					var thumbnailPath = val.substring(0, val.lastIndexOf('/')) + "/thumbnails" + val.substring(val.lastIndexOf('/'));
+					$(".gallery").append("<div class='col-xs-6 col-md-3'>"
+					+ "<a class='lightbox-img' href='" + val + "' title=''>"
+					+	"<img class='img-responsive thumbnail gallery-img center-block' src='" + thumbnailPath + "' alt='image'>"
+					+ "</a>"
+					+ "</div>");
+				} 
+			});
+			addLightbox();
+		}
+	});
+
+	/* ----------------------------------------------------------- */
+	/*  1. FIXED MENU
 	/* ----------------------------------------------------------- */
 
 
@@ -153,7 +177,7 @@
 
 
 	/* ----------------------------------------------------------- */
-	/*  6. PORTFOLIO GALLERY
+	/*  6. PORTFOLIO FILTER
 	/* ----------------------------------------------------------- */
 
 		try{
@@ -174,13 +198,15 @@
 	/*  7. PORTFOLIO POPUP VIEW ( IMAGE LIGHTBOX )
 	/* ----------------------------------------------------------- */
 
-	$('.mu-filter-imglink, .lightbox-img').magnificPopup({
-	  type: 'image',
-	  mainClass: 'mfp-fade',
-	  gallery:{
-	    enabled:true
-	  }
-	});
+	function addLightbox(){
+		$('.mu-filter-imglink, .lightbox-img').magnificPopup({
+			type: 'image',
+			mainClass: 'mfp-fade',
+			gallery:{
+			  enabled:true
+			}
+		  });
+	}
 
 	/* ----------------------------------------------------------- */
 	/*  8. CLIENT TESTIMONIALS (SLICK SLIDER)
